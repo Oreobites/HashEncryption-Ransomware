@@ -24,7 +24,9 @@ public class MainLayoutController {
 	    return (int)(Math.random() * (n2 - n1 + 1)) + n1;
 	}
 	
-	@FXML private void initialize() {}
+	@FXML private void initialize() {
+		
+	}
 	
 	public void onDecrypt() {
 		key = usrKey.getText();
@@ -37,7 +39,7 @@ public class MainLayoutController {
 		
 	    for (File f : listOfFiles) {
 	      if (f.isFile()) {
-	    	  if (f.getName().charAt(0) != '.') {
+	    	  if (f.getName().charAt(0) != '.' && f.getPath().indexOf("_Encrypted") != -1) {
 	    		  pathList.add(f.getPath());
 	    		  System.out.println("File Found: " + pathList.get(pathList.size()-1));
 	    	  } else {
@@ -47,17 +49,19 @@ public class MainLayoutController {
 	        System.out.println("Dir Skipped: " + f.getName());
 	      }
 	    }
-		
+		System.out.println(pathList);
 	    byte[] fileData = new byte[10485760]; //Max 10MB
 	    boolean limit = false;
+	    int encryptedIndex;
 	    int dotIndex;
 	    String newFilePath, extension;
 	    
 		for (String filePath : pathList) {
-			dotIndex = filePath.indexOf("_Encrypted.");
-			newFilePath = filePath.substring(0, dotIndex);
+			encryptedIndex = filePath.indexOf("_Encrypted.");
+			dotIndex = filePath.indexOf('.');
+			newFilePath = filePath.substring(0, encryptedIndex);
 			extension = filePath.substring(dotIndex+1);
-			newFilePath += extension;
+			newFilePath += "." + extension;
 			if (!extension.equals("txt")) limit = true;
 		
 			String hashedKey = getMD5(key);
@@ -100,9 +104,17 @@ public class MainLayoutController {
 		}	
 		
 		for (File f : listOfFiles) {
-			System.out.println("Deleting Encrypted Files" + f.getPath());
-			f.delete();
-		}
+		      if (f.isFile()) {
+		    	  if (f.getName().charAt(0) != '.' && f.getPath().indexOf("_Encrypted") != -1) {
+		    		  System.out.println("Deleting Encrypted Files" + f.getPath());
+		  				f.delete();
+		    	  } else {
+		    		  System.out.println("Hidden File Was Skipped");
+		    	  }
+		      } else if (f.isDirectory()) {
+		        System.out.println("Dir Skipped: " + f.getName());
+		      }
+		  }
 	}
 	
 	public long getFileSize(String path) {

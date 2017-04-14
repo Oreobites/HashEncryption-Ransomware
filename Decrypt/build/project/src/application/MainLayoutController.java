@@ -28,90 +28,6 @@ public class MainLayoutController {
 		
 	}
 	
-	/*
-		public void onEncrypt() {
-		String workingDir = System.getProperty("user.dir");
-		System.out.println(workingDir);
-		
-		File folder = new File(workingDir);
-		File[] listOfFiles = folder.listFiles();
-		ArrayList<String> pathList = new ArrayList<>();
-		
-	    for (File f : listOfFiles) {
-	      if (f.isFile()) {
-	    	  if (f.getName().charAt(0) != '.') {
-	    		  pathList.add(f.getPath());
-	    		  System.out.println("File Found: " + pathList.get(pathList.size()-1));
-	    	  } else {
-	    		  System.out.println("Hidden File Was Skipped");
-	    	  }
-	      } else if (f.isDirectory()) {
-	        System.out.println("Dir Skipped: " + f.getName());
-	      }
-	    }
-		
-	    byte[] fileData = new byte[10485760]; //Max 10MB
-	    boolean limit = false;
-	    int dotIndex;
-	    String newFilePath, extension;
-	    
-		for (String filePath : pathList) {
-			dotIndex = filePath.indexOf('.');
-			newFilePath = filePath.substring(0, dotIndex);
-			extension = filePath.substring(dotIndex+1);
-			newFilePath += "_Encrypted." + extension;
-			if (!extension.equals("txt")) limit = true;
-		
-			String hashedKey = getMD5(key);
-			
-			System.out.println("Current file : " + filePath);
-			System.out.println("New File Created : " + newFilePath);
-			
-			try {			
-				FileInputStream fIn = new FileInputStream(filePath);
-				FileOutputStream fOut = new FileOutputStream(newFilePath, false);
-				long fileSize = getFileSize(filePath);
-				System.out.println("fileSize : " + fileSize);
-				if (fileSize < 1000) limit = false;
-				
-				fIn.read(fileData, 0, (int)fileSize);
-				System.out.print("READ OK! ");
-				
-				//Encrypt
-				if (limit) {
-					for (int i=0; i<1000; i++) {
-						fileData[i] += hashedKey.charAt(i%32);
-						fOut.write(fileData[i]);
-					}
-					fOut.write(fileData, 1000, (int)fileSize-1000);
-				} else {
-					for (int i=0; i<(int)fileSize; i++) {
-						fileData[i] += hashedKey.charAt(i%32);
-						fOut.write(fileData[i]);
-					}
-				}
-				
-				System.out.println("ENCRYPT OK!");
-				System.out.println();
-				
-				fIn.close();
-				fOut.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}	
-		
-		for (File f : listOfFiles) {
-			System.out.println("Deleting " + f.getPath());
-			f.delete();
-		}
-	}
-	
-	public long getFileSize(String path) {
-		File f = new File(path);
-		return f.length();
-	}
-	*/
 	public void onDecrypt() {
 		key = usrKey.getText();
 		String workingDir = System.getProperty("user.dir");
@@ -123,7 +39,7 @@ public class MainLayoutController {
 		
 	    for (File f : listOfFiles) {
 	      if (f.isFile()) {
-	    	  if (f.getName().charAt(0) != '.') {
+	    	  if (f.getName().charAt(0) != '.' && f.getPath().indexOf("_Encrypted") != -1) {
 	    		  pathList.add(f.getPath());
 	    		  System.out.println("File Found: " + pathList.get(pathList.size()-1));
 	    	  } else {
@@ -133,17 +49,19 @@ public class MainLayoutController {
 	        System.out.println("Dir Skipped: " + f.getName());
 	      }
 	    }
-		
+		System.out.println(pathList);
 	    byte[] fileData = new byte[10485760]; //Max 10MB
 	    boolean limit = false;
+	    int encryptedIndex;
 	    int dotIndex;
 	    String newFilePath, extension;
 	    
 		for (String filePath : pathList) {
-			dotIndex = filePath.indexOf("_Encrypted.");
-			newFilePath = filePath.substring(0, dotIndex);
+			encryptedIndex = filePath.indexOf("_Encrypted.");
+			dotIndex = filePath.indexOf('.');
+			newFilePath = filePath.substring(0, encryptedIndex);
 			extension = filePath.substring(dotIndex+1);
-			newFilePath += extension;
+			newFilePath += "." + extension;
 			if (!extension.equals("txt")) limit = true;
 		
 			String hashedKey = getMD5(key);
@@ -186,9 +104,17 @@ public class MainLayoutController {
 		}	
 		
 		for (File f : listOfFiles) {
-			System.out.println("Deleting Encrypted Files" + f.getPath());
-			f.delete();
-		}
+		      if (f.isFile()) {
+		    	  if (f.getName().charAt(0) != '.' && f.getPath().indexOf("_Encrypted") != -1) {
+		    		  System.out.println("Deleting Encrypted Files" + f.getPath());
+		  				f.delete();
+		    	  } else {
+		    		  System.out.println("Hidden File Was Skipped");
+		    	  }
+		      } else if (f.isDirectory()) {
+		        System.out.println("Dir Skipped: " + f.getName());
+		      }
+		  }
 	}
 	
 	public long getFileSize(String path) {
