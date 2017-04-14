@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="230.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainLayoutController">
+   <children>
+      <Label layoutX="73.0" layoutY="20.0" prefWidth="640.0" text="                                Your Files Are Encrypted!" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="Calibri Light" size="25.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutX="31.0" layoutY="87.0" prefHeight="23.0" prefWidth="578.0" text="You'd better hurry if you want to get your files back. " AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="87.0">
+         <font>
+            <Font name="Calibri Light" size="20.0" />
+         </font>
+      </Label>
+      <Separator layoutX="112.0" layoutY="50.0" prefHeight="11.0" prefWidth="600.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0" />
+      <Label alignment="CENTER" layoutX="31.0" layoutY="118.0" prefHeight="23.0" prefWidth="600.0" text="Send 1,000,000 won to the following account in 24 hours:" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="Calibri Light" size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutY="165.0" text="Korea Bank, 123456-78-901234" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="Calibri Light" size="25.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

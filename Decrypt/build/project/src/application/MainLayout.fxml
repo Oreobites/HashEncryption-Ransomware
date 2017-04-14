@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="125.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainLayoutController">
+   <children>
+      <Label alignment="CENTER" layoutX="73.0" layoutY="20.0" prefWidth="640.0" text="Enter Key to Decrypt" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="Calibri Light" size="25.0" />
+         </font></Label>
+      <Separator layoutX="112.0" layoutY="50.0" prefHeight="11.0" prefWidth="600.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0" />
+      <TextField fx:id="usrKey" layoutX="127.0" layoutY="81.0">
+         <font>
+            <Font name="Calibri Light" size="18.0" />
+         </font>
+      </TextField>
+      <Button fx:id="decrypt" layoutX="346.0" layoutY="81.0" mnemonicParsing="false" onAction="#onDecrypt" text="I want my files back!">
+         <font>
+            <Font name="Calibri Light" size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
